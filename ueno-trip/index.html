@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#102c34">
+  <meta name="description" content="2026/10/25 東京上野七人一日遊｜晴雨自由切換、下午固定廣重特展、午餐訂位與即時天氣。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="上野七人旅｜10.25 東京小旅行">
+  <meta property="og:description" content="一個連結看行程：晴雨備案、廣重特展、餐廳、導航與集合資訊。">
+  <title>上野七人旅 · 2026.10.25</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#schedule">跳到行程</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="返回頁首">
+      <span class="brand-mark" aria-hidden="true">上</span>
+      <span class="brand-caption">TOKYO / UENO <small>旅遊小隊</small></span>
+    </a>
+    <div class="header-actions">
+      <span class="header-date">2026 · OCT · 25 <span class="week-marker">SUN</span></span>
+      <button type="button" class="header-share" id="shareTop" aria-label="分享行程">分享 ↗</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-topline"><span class="pill pill-bright">SUNDAY FIELD NOTES</span><span class="hero-index">TRIP / 01</span></div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="kicker">10.25 · UENO, TOKYO</div>
+          <h1 id="hero-title">上野，<br><em>邊走邊看。</em></h1>
+          <p class="hero-subtitle">七個人的東京小旅行。從美術館、老建築到雨後街景，用一整天收藏上野。</p>
+          <div class="hero-meta">
+            <span><b>07</b><small>位旅伴</small></span>
+            <span><b>10:00</b><small>集合出發</small></span>
+            <span><b>18:00</b><small>晚餐時間</small></span>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="浮世繪風格的富士山、雨雲與城市插畫" role="img">
+          <div class="art-rising-sun"></div>
+          <svg viewBox="0 0 500 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <defs><pattern id="lines" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M0 9H10" stroke="#f5f0e6" stroke-width="1" opacity=".16"/></pattern></defs>
+            <path d="M0 290L96 230L167 269L275 130L348 225L425 205L500 265V360H0Z" fill="#e8ede2"/>
+            <path d="M167 269L275 130L348 225L325 222L283 192L261 220L234 209L212 244Z" fill="#fbf6ec"/>
+            <path d="M0 305L90 258L167 288L279 180L365 279L500 262V360H0Z" fill="#799fa2"/>
+            <path d="M0 321L115 293L213 325L300 264L395 319L500 292V360H0Z" fill="#305f69"/>
+            <path d="M0 335Q120 290 240 336T500 325V360H0Z" fill="#16414d"/>
+            <path d="M0 320Q120 280 245 322T500 318" stroke="#d0e8e4" stroke-width="2" opacity=".3" fill="none"/>
+            <path d="M0 342Q180 295 340 335T500 336" stroke="#d0e8e4" stroke-width="1.5" opacity=".3" fill="none"/>
+            <rect x="15" y="150" width="500" height="180" fill="url(#lines)" opacity=".35"/>
+            <g stroke="#f4ecd9" stroke-width="4" stroke-linecap="round" opacity=".9"><path d="M58 72l-8 18"/><path d="M106 112l-8 18"/><path d="M372 77l-8 18"/><path d="M426 103l-8 18"/><path d="M459 62l-8 18"/></g>
+            <g fill="none" stroke="#f2f1e9" stroke-width="2" opacity=".7"><path d="M12 145Q40 125 68 145T124 145"/><path d="M357 157Q385 137 413 157T469 157"/></g>
+          </svg>
+          <div class="visual-stamp">雨天<br>照走</div>
+          <span class="visual-label">DISCOVER UENO / 2026</span>
+        </div>
+      </div>
+      <div class="hero-bottom"><span>ART · FOOD · CITY WALK</span><span>SCROLL TO EXPLORE ↓</span></div>
+    </section>
+
+    <div class="page-shell">
+      <section class="intro-grid" aria-label="集合和天氣資訊">
+        <article class="info-card meet-card">
+          <div class="section-eyebrow">MEETING POINT / 集合資訊</div>
+          <div class="meet-head"><div><h2>上野站 · 公園口</h2><p>JR 上野站 Park Exit（公園改札側）</p></div><div class="meet-clock">10<span>:00</span></div></div>
+          <a class="text-link" href="https://www.google.com/maps/search/?api=1&query=Ueno%20Station%20Park%20Exit%20Tokyo" target="_blank" rel="noopener noreferrer">開啟集合地點地圖 ↗</a>
+          <div class="small-note"><span class="tiny-dot"></span> 建議 09:50 抵達；七個人集合預留 10 分鐘。</div>
+        </article>
+        <article class="info-card weather-card" id="weatherBox">
+          <div class="section-eyebrow">WEATHER DESK / 上野當日天氣</div>
+          <div class="weather-main"><div><div class="weather-temp" id="weatherTemp">--°</div><div id="weatherLabel" class="weather-label">讀取天氣中…</div></div><div class="weather-symbol" aria-hidden="true">☁</div></div>
+          <div class="weather-forecast" id="weatherForecast">即將顯示 10/25 逐時降雨機率。</div>
+          <div class="weather-footer"><span id="weatherChecked">資料來源：Open-Meteo</span><button type="button" class="subtle-button" id="reloadWeather">更新 ↻</button></div>
+        </article>
+      </section>
+
+      <section class="mode-section" aria-labelledby="mode-title">
+        <div class="section-heading"><div><div class="section-eyebrow">01 / WEATHER-FLEXIBLE PLAN</div><h2 id="mode-title">看天氣，選今天的步調。</h2></div><p>午後廣重特展固定，上午與傍晚可自由切換。</p></div>
+        <div class="mode-switch" role="group" aria-label="選擇行程模式">
+          <button class="mode-btn" type="button" data-mode="rain" aria-pressed="true"><span class="mode-icon">☂</span><span><strong>雨天方案</strong><small>室內建築 · 美術</small></span></button>
+          <button class="mode-btn" type="button" data-mode="mixed" aria-pressed="false"><span class="mode-icon">☁</span><span><strong>小雨方案</strong><small>短暫戶外 · 室內</small></span></button>
+          <button class="mode-btn" type="button" data-mode="sun" aria-pressed="false"><span class="mode-icon">☀</span><span><strong>晴天方案</strong><small>花園 · 街頭藝術</small></span></button>
+        </div>
+        <div class="mode-notice" id="modeNotice" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="schedule-section" id="schedule" aria-labelledby="schedule-title">
+        <div class="section-heading schedule-heading"><div><div class="section-eyebrow">02 / DAY AT A GLANCE</div><h2 id="schedule-title">今天怎麼走？</h2></div><div class="schedule-right"><span class="schedule-key"><i></i> 固定行程</span><span class="schedule-key"><i></i> 天氣彈性</span></div></div>
+        <div class="schedule-layout">
+          <div class="timeline" id="timeline" aria-live="polite"></div>
+          <aside class="side-column">
+            <article class="side-card highlight-card">
+              <div class="highlight-top"><span class="small-label">DON'T MISS</span><span class="tiny-sun">✳</span></div>
+              <p class="highlight-no">10 / 25</p>
+              <h3>廣重特展<br>第一期最終日</h3>
+              <p>《東海道五拾三次》系列。下午 13:45 固定入館，16:30 最後入館。</p>
+              <a href="https://www.tnm.jp/modules/r_free_page/index.php?id=2759" target="_blank" rel="noopener noreferrer">查看博物館官方資訊 ↗</a>
+            </article>
+            <article class="side-card budget-card" id="budget">
+              <div class="section-eyebrow">03 / COST PLANNER</div>
+              <h3>七人預算估算</h3>
+              <label for="studentCount" class="field-label">持有效東大學生證的人數 <output id="studentOut">0</output> 人</label>
+              <input id="studentCount" type="range" min="0" max="7" value="0" step="1">
+              <p class="range-help">廣重特展：符合 Campus Members 的學生免費；其他成人以 ¥1,500 估算。博士後不直接算學生優惠。</p>
+              <div class="field-label">午餐偏好</div>
+              <div class="meal-toggle" role="group" aria-label="午餐方案"><button type="button" data-lunch="casual" aria-pressed="true">一般定食</button><button type="button" data-lunch="course" aria-pressed="false">圓桌套餐</button></div>
+              <div class="budget-total"><small>粗估全團總額</small><strong id="totalBudget">¥ --</strong></div>
+              <div class="budget-per">約 <strong id="perBudget">¥ --</strong>／人</div>
+              <p class="range-help">包含午餐、廣重特展、預估咖啡、晚餐與區內交通；晴天／小雨模式含花園 ¥800。飲品、購物與各自出發交通另計。非餐廳報價。</p>
+            </article>
+          </aside>
+        </div>
+      </section>
+
+      <section class="food-section" id="food" aria-labelledby="food-title">
+        <div class="section-heading"><div><div class="section-eyebrow">04 / EAT TOGETHER</div><h2 id="food-title">七人吃飯，先確認座位。</h2></div><p>建議一桌七人優先，退而求其次相鄰 4＋3。</p></div>
+        <div class="food-grid">
+          <article class="restaurant-card"><div class="restaurant-top"><span class="rest-label">LUNCH · PRIMARY</span><span class="rest-symbol">食</span></div><h3>音音<br><small>上野バンブーガーデン店</small></h3><p>日式定食，靠近上野站。七人同桌／包廂容量要先電話確認，不視為已訂位。</p><div class="rest-meta"><b>¥1,500–3,000／人</b><span>12:00–13:15</span></div><div class="restaurant-actions"><a href="tel:+81358072244">致電預約 ↗</a><a href="https://xn--mckuczay8ld4db0508duvvileoaa.com/space/" target="_blank" rel="noopener noreferrer">查看座位</a></div></article>
+          <article class="restaurant-card"><div class="restaurant-top"><span class="rest-label">LUNCH · ALTERNATIVE</span><span class="rest-symbol">円</span></div><h3>過門香<br><small>上野バンブーガーデン店</small></h3><p>有 8 人圓桌包廂，適合七人一起聊天。週末預約通常需要套餐，官方午餐套餐約 ¥4,500 起。</p><div class="rest-meta"><b>套餐 ¥4,500 起／人</b><span>12:00–13:15</span></div><div class="restaurant-actions"><a href="tel:+81358072288">致電預約 ↗</a><a href="https://kamonka-ueno.owst.jp/lunches" target="_blank" rel="noopener noreferrer">查看菜單</a></div></article>
+          <article class="restaurant-card"><div class="restaurant-top"><span class="rest-label">DINNER · SUGGESTION</span><span class="rest-symbol">晩</span></div><h3>上野站附近晚餐<br><small>七人尚未確認訂位</small></h3><p>18:00 再集合用餐；可以考慮 OTTIMO Seafood Garden 分享式義大利料理，或依團員喜好改店。請先確認七人桌位與套餐。</p><div class="rest-meta"><b>預留 ¥3,000–4,000／人</b><span>18:00–19:30</span></div><div class="restaurant-actions"><a href="https://www.google.com/maps/search/?api=1&query=OTTIMO%20Seafood%20Garden%20Ueno" target="_blank" rel="noopener noreferrer">餐廳地圖 ↗</a><a href="https://ottimo-seafoodgarden-ueno.com/" target="_blank" rel="noopener noreferrer">餐廳網站</a></div></article>
+        </div>
+        <div class="booking-warning"><span class="warning-icon">!</span><div><b>訂位狀態：尚未確認</b><p>此網頁是行程提案，不代表已預約午餐、下午茶或晚餐。若團隊改店，請由主辦人在群組更新。</p></div></div>
+      </section>
+
+      <section class="tools-section" aria-labelledby="tools-title">
+        <div class="section-heading"><div><div class="section-eyebrow">05 / TRAVEL TOOLS</div><h2 id="tools-title">出門前，快速確認。</h2></div></div>
+        <div class="tools-grid">
+          <article class="tool-card"><h3>出門清單</h3><p>勾選狀態只儲存在你自己的手機，不會同步到其他旅伴。</p><div class="checklist" id="checklist"></div><button type="button" class="reset-button" id="resetChecklist">清除我的勾選 ↻</button></article>
+          <article class="tool-card"><h3>分享與導航</h3><p>切換完方案後，分享連結給同行者；連結會記住你選的晴雨模式。</p><div class="action-stack"><button type="button" id="sharePlan" class="action-primary">分享這份行程 ↗</button><a id="routeLink" class="action-secondary" href="https://www.google.com/maps/search/?api=1&query=Ueno%20Park" target="_blank" rel="noopener noreferrer">開啟 Google Maps 路線 ↗</a><button type="button" id="downloadCalendar" class="action-secondary">加入行事曆（下載 .ics） ↓</button></div><div id="copyMessage" role="status" aria-live="polite" class="copy-message"></div></article>
+        </div>
+      </section>
+
+      <section class="source-section" aria-labelledby="source-title">
+        <div class="section-eyebrow">NOTES / INFORMATION SOURCES</div>
+        <h2 id="source-title">活動資訊與備註</h2>
+        <p>展覽與活動資料以 2026/10/24 官方資訊為準。路線為規劃建議，不表示已預約；交通耗時可能因天候與人潮變動。雨天戶外活動可能縮短、取消。</p>
+        <div class="source-links"><a href="https://www.tnm.jp/modules/r_free_page/index.php?id=2759" target="_blank" rel="noopener noreferrer">東京國立博物館</a><a href="https://www.kodomo.go.jp/use/date/" target="_blank" rel="noopener noreferrer">國際兒童圖書館</a><a href="https://artplaza.geidai.ac.jp/" target="_blank" rel="noopener noreferrer">藝大アートプラザ</a><a href="https://www.uenotoshogu.com/" target="_blank" rel="noopener noreferrer">上野東照宮</a><a href="https://www.artscouncil-tokyo.jp/news/29239/" target="_blank" rel="noopener noreferrer">Heaven Artist</a><a href="https://www.jrtk.jp/2k540/" target="_blank" rel="noopener noreferrer">2k540</a><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo 天氣</a></div>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer"><span>UENO TRIP / 2026.10.25</span><span>Built for seven, made to wander.</span><a href="#top">回到頂部 ↑</a></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
