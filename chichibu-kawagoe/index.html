@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#102c34">
+<meta name="description" content="2026/10/31–11/3 川越、秩父與長瀞四天三夜互動行程；每日時間軸、交通資訊、餐廳旅館候選、預算與地圖。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="川越・秩父・長瀞｜四天三夜秋日旅行">
+<meta property="og:description" content="切換 Day 1–Day 4，查看行程、交通、待定餐廳與旅館候選、即時預報和預算。">
+<title>川越・秩父・長瀞｜2026 秋日四天三夜</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#schedule">跳到行程</a>
+<header class="site-header">
+  <a class="brand" href="../" aria-label="返回 Travel Plan 總首頁">
+    <span class="brand-mark" aria-hidden="true">秋</span>
+    <span class="brand-caption">TRAVEL PLAN <small>SAITAMA / AUTUMN</small></span>
+  </a>
+  <div class="header-actions">
+    <span class="header-date">2026 · OCT 31 — NOV 03</span>
+    <button class="header-share" id="shareTop" type="button">分享 ↗</button>
+  </div>
+</header>
+<main id="top">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-topline"><span class="pill pill-bright">FOUR DAYS / THREE NIGHTS</span><span class="hero-index">TRIP / 02</span></div>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="kicker">KOEDO · CHICHIBU · NAGATORO</div>
+        <h1 id="hero-title">小江戶，<br><em>走進秋色。</em></h1>
+        <p class="hero-subtitle">把老街、神社、溪谷、纜車與溫泉慢慢走完。四天三夜，白天看山水，晚上留時間好好吃飯。</p>
+        <div class="hero-meta">
+          <span><b>04</b><small>旅行天數</small></span>
+          <span><b>03</b><small>住宿夜數</small></span>
+          <span><b>11.03</b><small>返回東京</small></span>
+        </div>
+      </div>
+      <div class="hero-visual autumn-visual" role="img" aria-label="原創山巒、河流、楓葉與夕陽的日式風格插畫">
+        <div class="art-rising-sun"></div>
+        <svg viewBox="0 0 500 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <defs><pattern id="river-lines" width="18" height="12" patternUnits="userSpaceOnUse"><path d="M0 10Q9 5 18 10" fill="none" stroke="#f2e7d8" opacity=".3"/></pattern></defs>
+          <path d="M0 242L85 194L135 215L260 85L354 212L425 173L500 244V360H0Z" fill="#d7d7ba"/>
+          <path d="M175 180L260 85L325 175L296 163L271 149L249 166L229 154Z" fill="#f8f2e9"/>
+          <path d="M0 263L113 219L205 278L312 150L391 265L500 226V360H0Z" fill="#739287"/>
+          <path d="M0 298Q105 238 219 299T500 291V360H0Z" fill="#315f5f"/>
+          <path d="M0 334Q108 296 211 332T500 326V360H0Z" fill="#153e48"/>
+          <path d="M185 360Q235 305 320 340Q396 361 500 306V360Z" fill="#9bc0b6"/>
+          <path d="M205 354Q258 313 318 339T490 327" fill="none" stroke="#f2e7d8" stroke-width="3" opacity=".7"/>
+          <path d="M174 360Q250 309 322 350T500 340V360Z" fill="url(#river-lines)"/>
+          <g fill="#e5a36b"><path d="M65 92l16-9-6 19 17 10-23-2-10 18 1-22-18-6z"/><path d="M398 84l11-17 6 21 23 1-16 14 5 18-18-10-15 8 7-20-11-16z"/><path d="M453 155l10-11 3 14 16 5-14 8 1 13-13-7-10 4 4-14-10-8z"/></g>
+          <g stroke="#efcda7" stroke-width="3" stroke-linecap="round" opacity=".8"><path d="M97 55l16 10"/><path d="M417 51l-8 16"/><path d="M440 126l17 10"/></g>
+        </svg>
+        <div class="visual-stamp">秋旅<br>四日</div>
+        <span class="visual-label">SLOW TRAVEL / 2026</span>
+      </div>
+    </div>
+    <div class="hero-bottom"><span>OLD TOWN · GORGE · ONSEN</span><span>EXPLORE THE DAYS ↓</span></div>
+  </section>
+
+  <div class="page-shell">
+    <section class="intro-grid" aria-label="旅行概要與天氣">
+      <article class="info-card meet-card">
+        <div class="section-eyebrow">TRIP OVERVIEW / 旅行概要</div>
+        <div class="meet-head"><div><h2 id="overviewTitle">Day 1 · 川越</h2><p id="overviewDate">10/31（六）· 老街、和服、甜點</p></div><div class="meet-clock" id="overviewClock">09<span>:00</span></div></div>
+        <a class="text-link" id="meetMap" href="https://www.google.com/maps/search/?api=1&query=Ikebukuro%20Station" target="_blank" rel="noopener noreferrer">開啟出發地點 ↗</a>
+        <div class="small-note"><span class="tiny-dot"></span> 行程為暫定提案；餐廳、住宿皆尚未預約。</div>
+      </article>
+      <article class="info-card weather-card" id="weatherBox">
+        <div class="section-eyebrow">WEATHER DESK / 所選日期預報</div>
+        <div class="weather-main"><div><div class="weather-temp" id="weatherTemp">--°</div><div id="weatherLabel" class="weather-label">正在準備預報…</div></div><div class="weather-symbol" id="weatherSymbol" aria-hidden="true">☁</div></div>
+        <div class="weather-forecast" id="weatherForecast">天氣資訊依 Day 1–Day 4 自動切換。</div>
+        <div class="weather-footer"><span id="weatherChecked">Open-Meteo · 日本時間</span><button type="button" class="subtle-button" id="reloadWeather">更新 ↻</button></div>
+      </article>
+    </section>
+
+    <section class="mode-section" aria-labelledby="mode-title">
+      <div class="section-heading"><div><div class="section-eyebrow">01 / FOUR-DAY ITINERARY</div><h2 id="mode-title">選一天，查看完整行程。</h2></div><p>原本「天氣方案」切換在此改為四天分頁；天氣預報仍保留，但不會改動既定行程。</p></div>
+      <div class="mode-switch day-switch" role="group" aria-label="選擇旅行日期">
+        <button type="button" class="mode-btn" data-day="1" aria-pressed="true"><span class="mode-icon">一</span><span><strong>Day 1 · 川越</strong><small>10/31 六 · 小江戶</small></span></button>
+        <button type="button" class="mode-btn" data-day="2" aria-pressed="false"><span class="mode-icon">二</span><span><strong>Day 2 · 秩父</strong><small>11/01 日 · 山景</small></span></button>
+        <button type="button" class="mode-btn" data-day="3" aria-pressed="false"><span class="mode-icon">三</span><span><strong>Day 3 · 長瀞</strong><small>11/02 一 · 溪谷</small></span></button>
+        <button type="button" class="mode-btn" data-day="4" aria-pressed="false"><span class="mode-icon">四</span><span><strong>Day 4 · 秩父</strong><small>11/03 二 · 銀杏</small></span></button>
+      </div>
+      <div class="mode-notice" role="status" aria-live="polite" id="modeNotice"></div>
+    </section>
+
+    <section class="schedule-section" id="schedule" aria-labelledby="schedule-title">
+      <div class="section-heading schedule-heading"><div><div class="section-eyebrow">02 / DAILY TIMELINE</div><h2 id="schedule-title">今日時間軸</h2></div><div class="schedule-right"><span class="schedule-key"><i></i> 主要安排</span><span class="schedule-key"><i></i> 彈性安排</span></div></div>
+      <div class="schedule-layout">
+        <div class="timeline" id="timeline" aria-live="polite"></div>
+        <aside class="side-column">
+          <article class="side-card highlight-card">
+            <div class="highlight-top"><span class="small-label">DON'T MISS</span><span class="tiny-sun">✳</span></div>
+            <p class="highlight-no" id="highlightDate">10 / 31</p><h3 id="highlightTitle">慢慢逛小江戶</h3><p id="highlightDesc"></p>
+            <a id="highlightLink" href="#" target="_blank" rel="noopener noreferrer">景點資訊 ↗</a>
+          </article>
+          <article class="side-card budget-card" id="budget">
+            <div class="section-eyebrow">03 / BUDGET ESTIMATOR</div>
+            <h3>四天三夜預算</h3>
+            <label class="field-label" for="people">同行人數 <output id="peopleOut">2</output> 人</label>
+            <input type="range" id="people" min="1" max="6" step="1" value="2">
+            <label class="field-label" for="kawagoeStay">川越住宿（每人一晚） <output id="kawagoeStayOut"></output></label>
+            <input type="range" id="kawagoeStay" min="6000" max="20000" step="1000" value="9000">
+            <label class="field-label" for="chichibuStay">秩父住宿（每人每晚，共兩晚） <output id="chichibuStayOut"></output></label>
+            <input type="range" id="chichibuStay" min="9000" max="35000" step="1000" value="18000">
+            <label class="field-label" for="foodCost">餐飲與咖啡（每人四天） <output id="foodCostOut"></output></label>
+            <input type="range" id="foodCost" min="5000" max="20000" step="1000" value="10000">
+            <div class="budget-total"><small>全程每人概算</small><strong id="perBudget">¥ --</strong></div>
+            <div class="budget-per">同行總計約 <strong id="totalBudget">¥ --</strong></div>
+            <p class="range-help">另預設交通 ¥6,500、和服／遊船／纜車等 ¥7,500、雜費 ¥3,000／人。若秩父房價含早晚餐，請相應降低餐飲預算；全部為規劃估值，非實際報價。</p>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <section class="transit-section" id="transport" aria-labelledby="transport-title">
+      <div class="section-heading"><div><div class="section-eyebrow">04 / TRAINS & BUSES</div><h2 id="transport-title">車怎麼搭？</h2></div><p>顯示所選日期的交通路線與已公布班次，搭車前請再次核對業者網站。</p></div>
+      <div id="transportCards" class="transit-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="food-section" id="food" aria-labelledby="food-title">
+      <div class="section-heading"><div><div class="section-eyebrow">05 / EAT & STAY</div><h2 id="food-title">餐廳與旅館，先收藏選項。</h2></div><p>點開候選卡片比較料理、價格與地點。偏好可暫存本機，但不代表已訂位。</p></div>
+      <div class="choice-columns">
+        <details class="choice-group" open><summary><span>餐廳候選 <small id="foodCount"></small></span><span class="summary-open">展開 / 收合</span></summary><div class="choice-list" id="foodChoices"></div></details>
+        <details class="choice-group" open><summary><span>旅館候選 <small id="hotelCount"></small></span><span class="summary-open">展開 / 收合</span></summary><div class="choice-list" id="hotelChoices"></div></details>
+      </div>
+      <div class="booking-warning"><span class="warning-icon">!</span><div><b>目前全部待定，尚未訂位</b><p>價格為單人或每房概算（會清楚標示），不是 10/31–11/3 的即時報價。連假房況、營業日、旅館接送與餐廳空位都需要重新確認。</p></div></div>
+    </section>
+
+    <section class="tools-section" aria-labelledby="tools-title">
+      <div class="section-heading"><div><div class="section-eyebrow">06 / TRAVEL TOOLS</div><h2 id="tools-title">出門前的小工具</h2></div></div>
+      <div class="tools-grid">
+        <article class="tool-card"><h3>行前確認清單</h3><p>勾選記錄只存在目前裝置，無法自動同步其他旅伴。</p><div class="checklist" id="checklist"></div><button class="reset-button" id="resetChecklist" type="button">清除我的勾選 ↻</button></article>
+        <article class="tool-card"><h3>分享與導覽</h3><p>分享網址會記住目前選擇的 Day 1–Day 4。下載行事曆包含全部四天，時間仍為暫定。</p><div class="action-stack"><button class="action-primary" id="sharePlan" type="button">分享所選日期 ↗</button><a class="action-secondary" id="routeLink" href="https://www.google.com/maps/" target="_blank" rel="noopener noreferrer">開啟當日主要景點導航 ↗</a><button class="action-secondary" id="downloadCalendar" type="button">下載四天行程 .ics ↓</button></div><div class="copy-message" id="copyMessage" role="status" aria-live="polite"></div></article>
+      </div>
+    </section>
+    <section class="source-section" aria-labelledby="source-title">
+      <div class="section-eyebrow">NOTES / OFFICIAL INFORMATION</div>
+      <h2 id="source-title">查詢連結與重要提醒</h2>
+      <p>2026/10/24 編製。行程採 10/31（六）至 11/3（二・文化の日）；11/2 為平日，11/3 公車用土休日表。長瀞遊船依水位調整；寶登山纜車依季節增班；Muse Park 銀杏可能提早落葉。旅館皆未預訂，請先確認住宿交通可行性。</p>
+      <div class="source-links">
+        <a href="https://www.muse-park.com/access" target="_blank" rel="noopener noreferrer">Muse Park 循環巴士</a>
+        <a href="https://www.chichibu-railway.co.jp/blog/news/2026line/" target="_blank" rel="noopener noreferrer">長瀞ラインくだり</a>
+        <a href="https://www.hodosan-ropeway.co.jp/information/" target="_blank" rel="noopener noreferrer">寶登山纜車</a>
+        <a href="https://www.seiburailway.jp/railway/reservedtrain/timetable/" target="_blank" rel="noopener noreferrer">西武特急時刻</a>
+        <a href="https://www.tobuhotel.co.jp/kawagoe2020/access/" target="_blank" rel="noopener noreferrer">川越東武飯店</a>
+        <a href="https://www.miyama-onsen.com/access.asp" target="_blank" rel="noopener noreferrer">美やま接送</a>
+        <a href="https://www.wadoh.co.jp/access/" target="_blank" rel="noopener noreferrer">和どう接送</a>
+        <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo 天氣</a>
+      </div>
+    </section>
+  </div>
+</main>
+<footer class="site-footer"><span>KOEDO · CHICHIBU / 2026</span><span>Slow days, good memories.</span><a href="../">旅行總首頁 ↗</a><a href="#top">回頂部 ↑</a></footer>
+<div class="toast" role="status" aria-live="polite" id="toast"></div>
+</body>
+</html>
