@@ -17,7 +17,7 @@ A reusable shared expense tracker for every itinerary in Travel Plan. **Not oper
 1. Create a Firebase project and Web App at https://console.firebase.google.com/ . Register the GitHub Pages origin (for example `brianlu11.github.io`) as an **Authentication authorized domain** and enable **Authentication → Sign-in method → Google**.
 2. Create a Cloud Firestore database in production mode. Paste the repository file `expense-tracker/firestore.rules` into **Firestore → Rules**, and **Publish**. Do not deploy test-mode wide-open rules.
 3. In Firestore **Data**, manually bootstrap the trips and organizer members. Use the exact **UID** from Firebase Authentication → Users after the organizer signs in (before invited joining is possible). Do not confuse email with UID. Create:
-   - `trips/ueno-2026`: `{ "currency": "JPY", "name": "上野七人旅" }`
+   - `trips/ueno-2026`: `{ "currency": "JPY", "name": "上野六人旅" }`
    - `trips/chichibu-kawagoe-2026`: `{ "currency": "JPY", "name": "川越・秩父・長瀞" }`
    - Under each trip: `members/YOUR_FIREBASE_UID` document with `{ "active": true, "role": "admin", "email": "your@gmail.com", "displayName": "Organizer" }`. Admin member `joinedAt` is optional in this **console-only** bootstrap. **Keep these documents private; never commit personal emails/UIDs to GitHub.**
 4. Copy your Firebase Web App config values to `expense-tracker/firebase-config.js`: `apiKey`, `authDomain`, `projectId`, `appId`. These public web identifiers are not server-side secrets; the Firestore rules provide the actual protection. Never commit private keys or service account files.
