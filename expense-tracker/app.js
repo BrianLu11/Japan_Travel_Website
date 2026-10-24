@@ -3,7 +3,7 @@ import {calculateLedger, formatMoney, parseAmount} from "./ledger.js";
 
 const tripId = new URLSearchParams(location.search).get("trip") || "";
 const trips = {
- "ueno-2026": {label:"上野七人旅 · 2026/10/25",path:"../ueno-trip/"},
+ "ueno-2026": {label:"上野六人旅 · 2026/10/25",path:"../ueno-trip/"},
  "chichibu-kawagoe-2026": {label:"川越・秩父・長瀞 · 2026/10/31–11/3",path:"../chichibu-kawagoe/"}
 };
 const trip = trips[tripId];
