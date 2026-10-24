@@ -9,6 +9,7 @@
 | 目的地 | 日期 | 人數 | 行程 |
 | --- | --- | --- | --- |
 | 🇯🇵 東京・上野（Ueno） | 2026/10/25（日） | 7 人 | [開啟互動行程](https://brianlu11.github.io/Travel_Plan/ueno-trip/) |
+| 🇯🇵 川越・秩父・長瀞 | 2026/10/31–11/3 | 人數可調 | [開啟四天三夜行程](https://brianlu11.github.io/Travel_Plan/chichibu-kawagoe/) |
 
 **[旅行計畫總首頁 →](https://brianlu11.github.io/Travel_Plan/)**
 
@@ -36,6 +37,11 @@ Travel_Plan/
     ├── app.js           # 行程切換及互動功能
     ├── styles.css       # 網頁樣式
     └── favicon.svg      # 網站圖示
+└── chichibu-kawagoe/
+    ├── index.html       # 四日切換及候選選項
+    ├── app.js           # 每日時程、天氣、預算與日曆
+    ├── styles.css       # 延續上野頁設計風格
+    └── favicon.svg
 ```
 
 ## 🚀 使用與更新
