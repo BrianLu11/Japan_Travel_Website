@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+   function signedIn() { return request.auth != null && request.auth.token.email_verified == true; }
+   function email() { return request.auth.token.email.lower(); }
+   function trip(t) { return get(/databases/$(database)/documents/trips/$(t)); }
+   function activeMember(t) {
+     return signedIn() &&
+       exists(/databases/$(database)/documents/trips/$(t)/members/$(request.auth.uid)) &&
+       get(/databases/$(database)/documents/trips/$(t)/members/$(request.auth.uid)).data.active == true;
+   }
+   function organizer(t) { return activeMember(t) && get(/databases/$(database)/documents/trips/$(t)/members/$(request.auth.uid)).data.role == 'admin'; }
+   function invited(t) {
+     return signedIn() &&
+       exists(/databases/$(database)/documents/trips/$(t)/invites/$(email())) &&
+       get(/databases/$(database)/documents/trips/$(t)/invites/$(email())).data.active == true;
+   }
+   function memberFields() { return ['displayName','email','role','active','joinedAt']; }
+   function expenseFields() { return ['title','amountMinor','payerUid','participantUids','category','date','createdBy','createdAt']; }
+   function memberExists(t,u) {return exists(/databases/$(database)/documents/trips/$(t)/members/$(u));}
+   function validExpense(t,d) {
+     return d.keys().hasAll(expenseFields()) && d.keys().hasOnly(expenseFields()) &&
+       d.title is string && d.title.size() > 0 && d.title.size() <= 100 &&
+       d.amountMinor is int && d.amountMinor >= 1 && d.amountMinor <= 999999999 &&
+       d.payerUid is string && memberExists(t,d.payerUid) &&
+       d.participantUids is list && d.participantUids.size() > 0 && d.participantUids.size() <= 40 &&
+       d.participantUids.toSet().size() == d.participantUids.size() &&
+       d.category in ['餐飲','交通','住宿','門票','購物','其他'] &&
+       d.date is string && d.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') &&
+       d.createdBy == request.auth.uid && d.createdAt == request.time;
+   }
+   match /trips/{t} {
+     allow read: if activeMember(t) || invited(t);
+     allow write: if false; // Bootstrap via Firebase Console or trusted Admin SDK.
+     match /invites/{mail} {
+       allow get: if organizer(t) || (signedIn() && mail == email());
+       allow list: if organizer(t);
+       allow create, update: if organizer(t) &&
+         request.resource.data.keys().hasOnly(['email','active','invitedBy','updatedAt']) &&
+         request.resource.data.keys().hasAll(['email','active','invitedBy','updatedAt']) &&
+         request.resource.data.email == mail && request.resource.data.active is bool &&
+         request.resource.data.invitedBy == request.auth.uid &&
+         request.resource.data.updatedAt == request.time;
+       allow delete: if false;
+     }
+     match /members/{uid} {
+       allow get: if activeMember(t) || (signedIn() && uid == request.auth.uid);
+       allow list: if activeMember(t);
+       allow create: if signedIn() && uid == request.auth.uid && invited(t) &&
+         request.resource.data.keys().hasOnly(memberFields()) &&
+         request.resource.data.keys().hasAll(memberFields()) &&
+         request.resource.data.email == email() &&
+         request.resource.data.displayName is string &&
+         request.resource.data.displayName.size() <= 120 &&
+         request.resource.data.role == 'member' &&
+         request.resource.data.active == true &&
+         request.resource.data.joinedAt == request.time;
+       allow update: if organizer(t) && uid != request.auth.uid &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['active']) &&
+         request.resource.data.active is bool;
+       allow delete: if false;
+     }
+     match /expenses/{id} {
+       allow read: if activeMember(t);
+       allow create: if activeMember(t) && validExpense(t, request.resource.data);
+       allow delete: if activeMember(t) && (resource.data.createdBy == request.auth.uid || organizer(t));
+       allow update: if false;
+     }
+   }
+ }
+}
