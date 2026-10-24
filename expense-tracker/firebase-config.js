@@ -1,9 +1,9 @@
-// The Firebase Web config identifies a project; it is NOT a private key.
-// Copy the Web app configuration from Firebase Console > Project settings.
-// Never put service-account JSON, private keys, or admin tokens in this repository.
+// Firebase Web App public configuration for Travel Plan.
+// Access to shared expenses is enforced by Cloud Firestore Security Rules.
+// Never commit service-account credentials or private keys here.
 export const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  appId: ""
+  apiKey: "AIzaSyCgvpbSClo64vSwPdX6PIirbArwlA6ABoU",
+  authDomain: "travel-together-56eb7.firebaseapp.com",
+  projectId: "travel-together-56eb7",
+  appId: "1:267271240415:web:36a86632a30ae148d4c76a"
 };
