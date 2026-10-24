@@ -1,4 +1,4 @@
-/* Ueno Seven · all times Asia/Tokyo · 2026-10-25
+/* Ueno Six · all times Asia/Tokyo · 2026-10-25
    This is a static website: no login, no server, no shared database.
    Weather: Open-Meteo public forecast API (weather may change).
 */
@@ -37,12 +37,12 @@ const entries = {
     afternoon: { id:'yanaka',time:'16:20',end:'17:25',title:'谷中銀座 · 夕やけだんだん',desc:'雨停、精神還好再去老街：和菓子、雜貨、貓咪小物及黃昏街景。從博物館步行約 20–30 分鐘，返程可由日暮里搭 JR。',labels:['老街','戶外','可取消'],map:'谷中銀座商店街 台東区谷中3丁目',url:'https://www.gotokyo.org/jp/destinations/northern-tokyo/yanaka-and-nezu/index.html',urlLabel:'區域介紹' },
   }
 };
-const commonLunch = { id:'lunch',time:'12:00',end:'13:15',title:'七人午餐 · 優先預約音音',desc:'上野バンブーガーデン店，靠近車站。七人先詢問是否能同桌；若額滿，備選「過門香」的八人圓桌套餐。兩家都尚未確認訂位。',labels:['共同固定','7人','必須確認座位'],map:'音音 上野バンブーガーデン店',url:'https://xn--mckuczay8ld4db0508duvvileoaa.com/space/',urlLabel:'座位資訊',fixed:true };
+const commonLunch = { id:'lunch',time:'12:00',end:'13:15',title:'六人午餐 · 優先預約音音',desc:'上野バンブーガーデン店，靠近車站。六人先詢問是否能同桌；若額滿，備選「過門香」的八人圓桌套餐。兩家都尚未確認訂位。',labels:['共同固定','6人','必須確認座位'],map:'音音 上野バンブーガーデン店',url:'https://xn--mckuczay8ld4db0508duvvileoaa.com/space/',urlLabel:'座位資訊',fixed:true };
 const commonMuseum = { id:'museum',time:'13:45',end:'15:45',title:'東京國立博物館 · 歌川廣重特展',desc:'《歌川広重 江戸のベストアングル》第一期最後一天！本館 A 室；17:00 閉館、16:30 最後入館。東大 Campus Members 符合資格學生憑證免費。',labels:['共同固定','本日必去','一期最終日'],map:'東京国立博物館 台東区上野公園13-9',url:MUSEUM_URL,urlLabel:'特展官方資訊',fixed:true };
-const commonDinner = { id:'dinner',time:'18:00',end:'19:30',title:'七人晚餐 · 回上野集合',desc:'預留相聚聊天的時間。餐廳仍待敲定，可考慮上野站附近的 OTTIMO Seafood Garden；訂位前別視為確定地點。',labels:['共同固定','餐廳待訂'],map:'上野駅 台東区',url:mapUrl('OTTIMO Seafood Garden Ueno'),urlLabel:'晚餐候選',fixed:true };
+const commonDinner = { id:'dinner',time:'18:00',end:'19:30',title:'六人晚餐 · 回上野集合',desc:'預留相聚聊天的時間。餐廳仍待敲定，可考慮上野站附近的 OTTIMO Seafood Garden；訂位前別視為確定地點。',labels:['共同固定','餐廳待訂'],map:'上野駅 台東区',url:mapUrl('OTTIMO Seafood Garden Ueno'),urlLabel:'晚餐候選',fixed:true };
 const checklistItems = [
-  '確認七人午餐訂位（或相鄰 4＋3 座位）',
-  '確認七人晚餐地點與座位',
+  '確認六人午餐訂位（六人同桌優先）',
+  '確認六人晚餐地點與座位',
   '帶學生證／適用的入館證件',
   '摺疊傘、防滑好走的鞋子',
   '手機充電及交通 IC 卡',
@@ -57,9 +57,9 @@ const safeStorage = {
 };
 let currentMode = MODES.includes(params.get('mode')) ? params.get('mode') : (MODES.includes(safeStorage.get('ueno_mode')) ? safeStorage.get('ueno_mode') : 'rain');
 let lunchChoice = safeStorage.get('ueno_lunch')==='course' ? 'course' : 'casual';
-let studentCount = Math.max(0,Math.min(7,Number.parseInt(safeStorage.get('ueno_students') || '0',10) || 0));
+let studentCount = Math.max(0,Math.min(6,Number.parseInt(safeStorage.get('ueno_students') || '0',10) || 0));
 const $ = (sel) => document.querySelector(sel);
-const commonMeeting = {id:'meeting',time:'10:30',end:'10:40',title:'集合 · 上野站公園口',desc:'JR 上野站公園口集合；建議 10:20 抵達。七人到齊後一起出發。',labels:['共同固定','七人集合'],map:MEETING_MAP,url:mapUrl(MEETING_MAP),urlLabel:'集合地點',fixed:true};
+const commonMeeting = {id:'meeting',time:'10:30',end:'10:40',title:'集合 · 上野站公園口',desc:'JR 上野站公園口集合；建議 10:20 抵達。六人到齊後一起出發。',labels:['共同固定','六人集合'],map:MEETING_MAP,url:mapUrl(MEETING_MAP),urlLabel:'集合地點',fixed:true};
 const route = () => [
   commonMeeting,
   ...entries[currentMode].morning,
@@ -100,9 +100,9 @@ function updateBudget(){
   const lunch = lunchChoice==='course' ? 4500 : 1900;
   const gallery = currentMode==='rain' ? 0 : 800;
   const individualBase = lunch+650+3300+250+gallery;
-  const groupTotal=individualBase*7+(7-studentCount)*1500;
+  const groupTotal=individualBase*6+(6-studentCount)*1500;
   $('#totalBudget').textContent=yen(groupTotal);
-  $('#perBudget').textContent=yen(groupTotal/7);
+  $('#perBudget').textContent=yen(groupTotal/6);
   $('#studentOut').textContent=studentCount;
   $('#studentCount').value=String(studentCount);
   document.querySelectorAll('[data-lunch]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lunch===lunchChoice)));
@@ -129,8 +129,8 @@ async function sharePlan(){
     $('#copyMessage').textContent='本機檔案無法讓朋友直接存取。請先部署至 GitHub Pages，再使用分享功能。';
     say('請先部署 GitHub Pages');return;
   }
-  const message=`上野七人旅｜10/25 10:30 上野站公園口集合｜${currentMode==='rain'?'雨天':currentMode==='mixed'?'小雨':'晴天'}方案`;
-  if(navigator.share){try{await navigator.share({title:'上野七人旅 2026/10/25',text:message,url:u.href});return;}catch(e){if(e && e.name==='AbortError')return;}}
+  const message=`上野六人旅｜10/25 10:30 上野站公園口集合｜${currentMode==='rain'?'雨天':currentMode==='mixed'?'小雨':'晴天'}方案`;
+  if(navigator.share){try{await navigator.share({title:'上野六人旅 2026/10/25',text:message,url:u.href});return;}catch(e){if(e && e.name==='AbortError')return;}}
   try{await navigator.clipboard.writeText(u.href);say('已複製行程網址');$('#copyMessage').textContent='網址已複製，可以貼到 LINE／Discord／群組。';}
   catch{
     $('#copyMessage').textContent='複製此連結：'+u.href;
@@ -145,9 +145,9 @@ function createICS(){
     const dt=(v)=>`${TRIP_DATE_BASIC}T${v.replace(':','')}00`;
     return ['BEGIN:VEVENT',`UID:ueno-${item.id}-${TRIP_DATE_BASIC}@trip.local`,`DTSTAMP:${stamp}`,`DTSTART;TZID=Asia/Tokyo:${dt(item.time)}`,`DTEND;TZID=Asia/Tokyo:${dt(item.end)}`,`SUMMARY:${escapeICS(item.title)}`,`DESCRIPTION:${escapeICS(item.desc+'\n此行程尚未代表訂位確認')}`,`LOCATION:${escapeICS(item.map)}`,'END:VEVENT'].join('\r\n');
   }).join('\r\n');
-  const contents=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Ueno Seven//Trip Planner 2026//ZH','CALSCALE:GREGORIAN','X-WR-CALNAME:上野七人旅',events,'END:VCALENDAR'].join('\r\n');
+  const contents=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Ueno Six//Trip Planner 2026//ZH','CALSCALE:GREGORIAN','X-WR-CALNAME:上野六人旅',events,'END:VCALENDAR'].join('\r\n');
   const blob=new Blob([contents],{type:'text/calendar;charset=utf-8'});
-  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`ueno-seven-2026-10-25-${currentMode}.ics`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);say('行事曆檔已下載');
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`ueno-six-2026-10-25-${currentMode}.ics`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);say('行事曆檔已下載');
 }
 function tokyoToday(){
   return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
