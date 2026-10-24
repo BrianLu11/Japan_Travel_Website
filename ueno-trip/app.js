@@ -15,24 +15,24 @@ const entries = {
   rain: {
     notice: '預設雨天方案：上午看免費室內建築與展覽；午後廣重特展不變；若午後仍在下雨，改去上野／御徒町的室內商場。',
     morning: [
-      { id:'library',time:'10:00',end:'10:50',title:'國際兒童圖書館',desc:'走進由舊帝國圖書館改建的建築，看《色の引き算》免費展覽。雨天也值得專程造訪。',labels:['免費','室內','建築'],map:'國際子ども図書館 東京都台東区上野公園12-49',url:'https://www.kodomo.go.jp/event/exhibition/now',urlLabel:'展覽資訊' },
-      { id:'geidai',time:'11:05',end:'11:40',title:'藝大アートプラザ',desc:'東京藝術大學的畫廊與藝術選物空間，近期有《藝大NIPPON》企畫展；適合短時間欣賞小件藝術與工藝。',labels:['免費','室內','設計'],map:'藝大アートプラザ 台東区上野公園12-8',url:'https://artplaza.geidai.ac.jp/',urlLabel:'官方網站' }
+      { id:'library',time:'10:50',end:'11:15',title:'國際兒童圖書館',desc:'走進由舊帝國圖書館改建的建築，看《色の引き算》免費展覽。雨天也值得專程造訪。',labels:['免費','室內','建築'],map:'國際子ども図書館 東京都台東区上野公園12-49',url:'https://www.kodomo.go.jp/event/exhibition/now',urlLabel:'展覽資訊' },
+      { id:'geidai',time:'11:25',end:'11:40',title:'藝大アートプラザ',desc:'東京藝術大學的畫廊與藝術選物空間，近期有《藝大NIPPON》企畫展；適合短時間欣賞小件藝術與工藝。',labels:['免費','室內','設計'],map:'藝大アートプラザ 台東区上野公園12-8',url:'https://artplaza.geidai.ac.jp/',urlLabel:'官方網站' }
     ],
     afternoon: { id:'parco',time:'16:10',end:'17:25',title:'PARCO_ya 上野 / 御徒町',desc:'雨勢大就進室內百貨，逛雜貨、咖啡與生活選物；不勉強前往露天的谷中老街。',labels:['室內','雨天穩定'],map:'PARCO_ya 上野 台東区上野3-24-6',url:'https://parcoya-ueno.parco.jp/',urlLabel:'百貨資訊' },
   },
   mixed: {
     notice: '小雨混合方案：上午去大麗花庭園短暫拍照，雨來便改藝大；午後廣重固定，結束後改走有屋頂的 2k540 工藝街。',
     morning: [
-      { id:'dahlia',time:'10:00',end:'10:45',title:'上野東照宮 · 大麗花庭園',desc:'日式庭園中約 120 品種的大麗花，適合雨停間隙拍照。若開始持續下雨，直接切回室內方案。',labels:['戶外','¥800','視雨勢'],map:'上野東照宮ぼたん苑 台東区上野公園9-88',url:'https://www.uenotoshogu.com/',urlLabel:'官方網站' },
-      { id:'geidai',time:'11:00',end:'11:40',title:'藝大アートプラザ',desc:'免費欣賞藝術作品與工藝；可避開中午前可能出現的短暫陣雨。',labels:['免費','室內'],map:'藝大アートプラザ 台東区上野公園12-8',url:'https://artplaza.geidai.ac.jp/',urlLabel:'官方網站' }
+      { id:'dahlia',time:'10:50',end:'11:15',title:'上野東照宮 · 大麗花庭園',desc:'日式庭園中約 120 品種的大麗花，適合雨停間隙拍照。若開始持續下雨，直接切回室內方案。',labels:['戶外','¥800','視雨勢'],map:'上野東照宮ぼたん苑 台東区上野公園9-88',url:'https://www.uenotoshogu.com/',urlLabel:'官方網站' },
+      { id:'geidai',time:'11:25',end:'11:40',title:'藝大アートプラザ',desc:'免費欣賞藝術作品與工藝；可避開中午前可能出現的短暫陣雨。',labels:['免費','室內'],map:'藝大アートプラザ 台東区上野公園12-8',url:'https://artplaza.geidai.ac.jp/',urlLabel:'官方網站' }
     ],
     afternoon: { id:'craft',time:'16:20',end:'17:25',title:'2k540 AKI-OKA ARTISAN',desc:'鐵道高架下的設計小店與工藝空間，有皮革、飾品、陶器等。通道有遮蔽但不是全室內，大雨改去 PARCO_ya。',labels:['工藝','有遮蔽','非全室內'],map:'2k540 AKI-OKA ARTISAN 台東区上野5-9',url:'https://www.jrtk.jp/2k540/',urlLabel:'商店街資訊' },
   },
   sun: {
     notice: '晴天方案：先看上野東照宮的大麗花，再到公園看街頭藝術；午後廣重固定，天氣好才延伸至谷中老街。',
     morning: [
-      { id:'dahlia',time:'10:00',end:'10:50',title:'上野東照宮 · 大麗花庭園',desc:'秋季大麗花展，和傘、傳統庭園與花卉很適合一起拍照。官方成人入苑 ¥800。',labels:['戶外','¥800','拍照'],map:'上野東照宮ぼたん苑 台東区上野公園9-88',url:'https://www.uenotoshogu.com/',urlLabel:'官方網站' },
-      { id:'artist',time:'11:00',end:'11:40',title:'Heaven Artist TOKYO 2026',desc:'上野公園街頭表演活動，週日 11:00–16:30。表演會因天氣調整，當場挑喜歡的停留即可。',labels:['免費','戶外','10/25限定'],map:'上野恩賜公園 台東区上野公園',url:'https://www.artscouncil-tokyo.jp/news/29239/',urlLabel:'活動公告' }
+      { id:'dahlia',time:'10:50',end:'11:15',title:'上野東照宮 · 大麗花庭園',desc:'秋季大麗花展，和傘、傳統庭園與花卉很適合一起拍照。官方成人入苑 ¥800。',labels:['戶外','¥800','拍照'],map:'上野東照宮ぼたん苑 台東区上野公園9-88',url:'https://www.uenotoshogu.com/',urlLabel:'官方網站' },
+      { id:'artist',time:'11:25',end:'11:40',title:'Heaven Artist TOKYO 2026',desc:'上野公園街頭表演活動，週日 11:00–16:30。表演會因天氣調整，當場挑喜歡的停留即可。',labels:['免費','戶外','10/25限定'],map:'上野恩賜公園 台東区上野公園',url:'https://www.artscouncil-tokyo.jp/news/29239/',urlLabel:'活動公告' }
     ],
     afternoon: { id:'yanaka',time:'16:20',end:'17:25',title:'谷中銀座 · 夕やけだんだん',desc:'雨停、精神還好再去老街：和菓子、雜貨、貓咪小物及黃昏街景。從博物館步行約 20–30 分鐘，返程可由日暮里搭 JR。',labels:['老街','戶外','可取消'],map:'谷中銀座商店街 台東区谷中3丁目',url:'https://www.gotokyo.org/jp/destinations/northern-tokyo/yanaka-and-nezu/index.html',urlLabel:'區域介紹' },
   }
@@ -46,7 +46,7 @@ const checklistItems = [
   '帶學生證／適用的入館證件',
   '摺疊傘、防滑好走的鞋子',
   '手機充電及交通 IC 卡',
-  '在群組確認 10:00 上野站公園口集合'
+  '在群組確認 10:30 上野站公園口集合'
 ];
 const params = new URLSearchParams(window.location.search);
 const MODES = ['rain','mixed','sun'];
@@ -59,8 +59,9 @@ let currentMode = MODES.includes(params.get('mode')) ? params.get('mode') : (MOD
 let lunchChoice = safeStorage.get('ueno_lunch')==='course' ? 'course' : 'casual';
 let studentCount = Math.max(0,Math.min(7,Number.parseInt(safeStorage.get('ueno_students') || '0',10) || 0));
 const $ = (sel) => document.querySelector(sel);
+const commonMeeting = {id:'meeting',time:'10:30',end:'10:40',title:'集合 · 上野站公園口',desc:'JR 上野站公園口集合；建議 10:20 抵達。七人到齊後一起出發。',labels:['共同固定','七人集合'],map:MEETING_MAP,url:mapUrl(MEETING_MAP),urlLabel:'集合地點',fixed:true};
 const route = () => [
-  {title:'上野站集合',map:MEETING_MAP,time:'10:00',end:'10:00'},
+  commonMeeting,
   ...entries[currentMode].morning,
   commonLunch,
   commonMuseum,
@@ -69,7 +70,7 @@ const route = () => [
 ];
 
 function renderItinerary(){
-  const items = route().slice(1);
+  const items = route();
   $('#timeline').innerHTML = items.map((item,index)=>{
     const tags = (item.labels||[]).map(s=>`<span class="timeline-tag ${item.fixed?'fixed-tag':''}">${s}</span>`).join('');
     return `<article class="timeline-item ${item.fixed?'fixed':''}">
@@ -128,7 +129,7 @@ async function sharePlan(){
     $('#copyMessage').textContent='本機檔案無法讓朋友直接存取。請先部署至 GitHub Pages，再使用分享功能。';
     say('請先部署 GitHub Pages');return;
   }
-  const message=`上野七人旅｜10/25 10:00 上野站公園口集合｜${currentMode==='rain'?'雨天':currentMode==='mixed'?'小雨':'晴天'}方案`;
+  const message=`上野七人旅｜10/25 10:30 上野站公園口集合｜${currentMode==='rain'?'雨天':currentMode==='mixed'?'小雨':'晴天'}方案`;
   if(navigator.share){try{await navigator.share({title:'上野七人旅 2026/10/25',text:message,url:u.href});return;}catch(e){if(e && e.name==='AbortError')return;}}
   try{await navigator.clipboard.writeText(u.href);say('已複製行程網址');$('#copyMessage').textContent='網址已複製，可以貼到 LINE／Discord／群組。';}
   catch{
@@ -139,7 +140,7 @@ async function sharePlan(){
 function escapeICS(s){return String(s).replaceAll('\\','\\\\').replaceAll(';','\\;').replaceAll(',','\\,').replaceAll('\n','\\n');}
 function createICS(){
   const now=new Date();const stamp=now.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
-  const items=route().slice(1);
+  const items=route();
   const events=items.map(item=>{
     const dt=(v)=>`${TRIP_DATE_BASIC}T${v.replace(':','')}00`;
     return ['BEGIN:VEVENT',`UID:ueno-${item.id}-${TRIP_DATE_BASIC}@trip.local`,`DTSTAMP:${stamp}`,`DTSTART;TZID=Asia/Tokyo:${dt(item.time)}`,`DTEND;TZID=Asia/Tokyo:${dt(item.end)}`,`SUMMARY:${escapeICS(item.title)}`,`DESCRIPTION:${escapeICS(item.desc+'\n此行程尚未代表訂位確認')}`,`LOCATION:${escapeICS(item.map)}`,'END:VEVENT'].join('\r\n');
