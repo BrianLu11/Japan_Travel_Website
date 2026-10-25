@@ -6,6 +6,8 @@
 const TRIP_DATE = '2026-10-25';
 const TRIP_DATE_BASIC = '20261025';
 const MEETING_MAP = 'JR Ueno Station Park Exit, Tokyo';
+const tr = (s) => window.UenoI18n ? window.UenoI18n.t(s) : String(s);
+const localize = () => window.UenoI18n?.apply();
 const MUSEUM_URL = 'https://www.tnm.jp/modules/r_free_page/index.php?id=2759';
 const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=35.7157&longitude=139.7750&hourly=temperature_2m,precipitation_probability,precipitation&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&start_date=2026-10-25&end_date=2026-10-25';
 
@@ -87,6 +89,7 @@ function renderItinerary(){
   $('#routeLink').href = routeUrl;
   $('#sharePlan').setAttribute('aria-label',`分享${currentMode==='rain'?'雨天':currentMode==='mixed'?'小雨':'晴天'}行程`);
   updateBudget();
+  localize();
 }
 function selectMode(mode){
   if(!MODES.includes(mode)) return;
@@ -117,23 +120,24 @@ function buildChecklist(){
   });
 }
 function say(message){
-  const toast=$('#toast');toast.textContent=message;toast.classList.add('show');
+  const toast=$('#toast');toast.textContent=tr(message);toast.classList.add('show');
   if(say.timer)clearTimeout(say.timer);
   say.timer=setTimeout(()=>toast.classList.remove('show'),3200);
 }
 async function sharePlan(){
   const u = new URL(window.location.href);
   u.searchParams.set('mode',currentMode);
+  u.searchParams.set('lang',window.UenoI18n?.getLanguage() || 'zh-Hant');
   u.hash='';
   if(u.protocol==='file:'){
-    $('#copyMessage').textContent='本機檔案無法讓朋友直接存取。請先部署至 GitHub Pages，再使用分享功能。';
+    $('#copyMessage').textContent=tr('本機檔案無法讓朋友直接存取。請先部署至 GitHub Pages，再使用分享功能。');
     say('請先部署 GitHub Pages');return;
   }
-  const message=`上野六人旅｜10/25 10:30 上野站公園口集合｜${currentMode==='rain'?'雨天':currentMode==='mixed'?'小雨':'晴天'}方案`;
-  if(navigator.share){try{await navigator.share({title:'上野六人旅 2026/10/25',text:message,url:u.href});return;}catch(e){if(e && e.name==='AbortError')return;}}
-  try{await navigator.clipboard.writeText(u.href);say('已複製行程網址');$('#copyMessage').textContent='網址已複製，可以貼到 LINE／Discord／群組。';}
+  const message=`${tr('上野六人旅')} | 10/25 10:30 ${tr('上野站公園口集合')} | ${tr(currentMode==='rain'?'雨天方案':currentMode==='mixed'?'小雨方案':'晴天方案')}`;
+  if(navigator.share){try{await navigator.share({title:tr('上野六人旅 2026/10/25'),text:message,url:u.href});return;}catch(e){if(e && e.name==='AbortError')return;}}
+  try{await navigator.clipboard.writeText(u.href);say('已複製行程網址');$('#copyMessage').textContent=tr('網址已複製，可以貼到 LINE／Discord／群組。');}
   catch{
-    $('#copyMessage').textContent='複製此連結：'+u.href;
+    $('#copyMessage').textContent=tr('複製此連結：')+u.href;
     try{const temp=document.createElement('textarea');temp.value=u.href;document.body.append(temp);temp.select();document.execCommand('copy');temp.remove();say('已嘗試複製網址');}catch{say('請手動複製連結');}
   }
 }
@@ -143,9 +147,9 @@ function createICS(){
   const items=route();
   const events=items.map(item=>{
     const dt=(v)=>`${TRIP_DATE_BASIC}T${v.replace(':','')}00`;
-    return ['BEGIN:VEVENT',`UID:ueno-${item.id}-${TRIP_DATE_BASIC}@trip.local`,`DTSTAMP:${stamp}`,`DTSTART;TZID=Asia/Tokyo:${dt(item.time)}`,`DTEND;TZID=Asia/Tokyo:${dt(item.end)}`,`SUMMARY:${escapeICS(item.title)}`,`DESCRIPTION:${escapeICS(item.desc+'\n此行程尚未代表訂位確認')}`,`LOCATION:${escapeICS(item.map)}`,'END:VEVENT'].join('\r\n');
+    return ['BEGIN:VEVENT',`UID:ueno-${item.id}-${TRIP_DATE_BASIC}@trip.local`,`DTSTAMP:${stamp}`,`DTSTART;TZID=Asia/Tokyo:${dt(item.time)}`,`DTEND;TZID=Asia/Tokyo:${dt(item.end)}`,`SUMMARY:${escapeICS(tr(item.title))}`,`DESCRIPTION:${escapeICS(tr(item.desc)+'\n'+tr('此行程尚未代表訂位確認'))}`,`LOCATION:${escapeICS(item.map)}`,'END:VEVENT'].join('\r\n');
   }).join('\r\n');
-  const contents=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Ueno Six//Trip Planner 2026//ZH','CALSCALE:GREGORIAN','X-WR-CALNAME:上野六人旅',events,'END:VCALENDAR'].join('\r\n');
+  const contents=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Ueno Six//Trip Planner 2026//ZH','CALSCALE:GREGORIAN','X-WR-CALNAME:'+tr('上野六人旅'),events,'END:VCALENDAR'].join('\r\n');
   const blob=new Blob([contents],{type:'text/calendar;charset=utf-8'});
   const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`ueno-six-2026-10-25-${currentMode}.ics`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);say('行事曆檔已下載');
 }
@@ -157,7 +161,7 @@ async function loadWeather(){
   $('#weatherChecked').textContent='上野周邊 · Open-Meteo';
   if(dateNow>TRIP_DATE){
     $('#weatherTemp').textContent='—';$('#weatherLabel').textContent='活動日期已過';
-    $('#weatherForecast').textContent='這份旅遊頁面仍可回顧，預報不再更新。';return;
+    $('#weatherForecast').textContent='這份旅遊頁面仍可回顧，預報不再更新。';localize();return;
   }
   $('#weatherLabel').textContent='正在取得預報…';
   const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),8000);
@@ -182,7 +186,7 @@ async function loadWeather(){
     $('#weatherTemp').textContent='—';$('#weatherLabel').textContent='無法連線取得預報';
     $('#weatherForecast').textContent='可照下方雨天備案走；出門前再開啟手機天氣 App 確認。';
     $('#weatherChecked').textContent='Open-Meteo · 連線未成功';
-  }finally{clearTimeout(timeout);}
+  }finally{clearTimeout(timeout);localize();}
 }
 function init(){
   document.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>selectMode(btn.dataset.mode)));
@@ -193,6 +197,7 @@ function init(){
   $('#downloadCalendar').addEventListener('click',createICS);
   $('#resetChecklist').addEventListener('click',()=>{safeStorage.remove('ueno_checks');document.querySelectorAll('[data-check]').forEach(x=>x.checked=false);say('已清除本機勾選');});
   $('#reloadWeather').addEventListener('click',loadWeather);
+  document.addEventListener('ueno:language-change',renderItinerary);
   buildChecklist();renderItinerary();loadWeather();
 }
 init();
