@@ -11,7 +11,8 @@
   <title>上野六人旅 · 2026.10.25</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
+  <script src="i18n.js?v=20261025-1" defer></script>
+  <script src="app.js?v=20261025-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#schedule">跳到行程</a>
@@ -21,6 +22,11 @@
       <span class="brand-caption">TOKYO / UENO <small>旅遊小隊</small></span>
     </a>
     <div class="header-actions">
+      <div class="language-switch" role="group" aria-label="選擇顯示語言">
+        <button type="button" data-lang="zh-Hant" aria-label="切換為繁體中文" aria-pressed="true">中</button>
+        <button type="button" data-lang="ja" aria-label="日本語に切り替える" aria-pressed="false">日</button>
+        <button type="button" data-lang="en" aria-label="Switch to English" aria-pressed="false">EN</button>
+      </div>
       <span class="header-date">2026 · OCT · 25 <span class="week-marker">SUN</span></span>
       <button type="button" class="header-share" id="shareTop" aria-label="分享行程">分享 ↗</button>
     </div>
