@@ -142,7 +142,7 @@ async function boot(){
      }catch(e){alertText("新增失敗："+e.message,true);}
      finally{$("saveExpenseBtn").disabled=false;}
    };
-   $("selectAllBtn").onclick=()=>document.querySelectorAll('input[name="participating"]').forEach(el=>el.checked=true);
+   $("selectAllBtn").onclick=()=>{document.querySelectorAll('input[name="participating"]').forEach(el=>el.checked=true);renderCustomShares(false);};
    $("inviteForm").onsubmit=async ev=>{
      ev.preventDefault();if(member?.role!=="admin")return;
      const mail=$("inviteEmail").value.trim().toLowerCase();
