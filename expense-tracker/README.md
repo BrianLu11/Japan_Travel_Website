@@ -6,7 +6,7 @@ A reusable shared expense tracker for every itinerary in Travel Plan. **Not oper
 
 - Google sign-in (Firebase Authentication popup).
 - Separate trip books, invited Google email membership, organizer-managed invitations.
-- Expense categories, payer, selected participants, equally split integer minor units.
+- Expense categories, payer, selected participants, **equal split (default)** or **custom amount per person**, validated in integer minor units.
 - Real-time Firestore listeners, per-person balances, suggested transfers and CSV export.
 - Owner/organizer may delete expenses. CSV is exported locally, not uploaded.
 - Currency is defined once per trip (default JPY). Don't mix currencies in one book.
@@ -38,3 +38,9 @@ Balance = total paid − total owed share. Positive means a member receives; neg
 ## Privacy
 
 Google sign-in returns identity details and Firestore stores name, email and shared travel spending. Only invite trusted travel companions; explain to them what can be seen. Do not store banking/card details, exact account numbers, or secret tokens. Do not add ledger JSON files containing personal transactions to the public repository.
+
+## Custom allocation (v2)
+
+In Add expense, choose **自訂每人金額** and enter each selected person's expense. The sum must equal total expense exactly; no negative amounts. The equal mode remains the default, and existing documents without `splitMode` remain compatible. New documents store `splitMode: 'equal'|'custom'` and, for custom mode only, `sharesMinor: { '<member UID>': <integer minor units> }`. CSV exports the split mode and serialized share map.
+
+**Required migration:** Publish the revised `expense-tracker/firestore.rules` after deploying this branch. Existing production rules reject the new `splitMode` field. The Rules language cannot easily prove an unbounded user-supplied map of shares sums to the total; the client validates on save AND on reads, but a malicious authenticated client could write internally inconsistent shares unless the architecture adds a trusted server-side validator. Do not rely on client-side validation as a security boundary for financial integrity.
