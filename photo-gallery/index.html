@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>共享相簿 | Travel Plan</title><link rel="stylesheet" href="./styles.css"></head><body>
+<header><a href="../">◈ TRAVEL PLAN</a><span>SHARED PHOTO GALLERY</span></header>
+<main><a id="back" href="../">← 返回行程</a><h1 id="tripName">旅行共享相簿</h1><p>只有受邀且已加入這趟旅行的成員才能上傳、瀏覽與下載照片。</p>
+<div id="message" role="status"></div>
+<section id="login" hidden><h2>加入相簿</h2><p>請用已受邀的 Google 帳號登入。</p><button id="signIn">Google 登入</button><p id="joinNote"></p><button id="join" hidden>接受邀請，加入旅行</button></section>
+<section id="gallery" hidden><div class="toolbar"><span id="account"></span><button id="signOut" class="secondary">登出</button></div>
+<section class="upload"><h2>上傳旅行照片</h2><p>可一次選取最多 20 張 JPG、PNG、WebP，每張最多 20 MiB。原圖保留；若原圖含 GPS 等 EXIF 資訊，其他旅伴下載後也可能看到。</p>
+<input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple><button id="upload">上傳照片</button><progress id="progress" max="100" value="0" hidden></progress><span id="uploadStatus"></span></section>
+<div class="listHeading"><h2>全部照片</h2><span id="count"></span></div><div id="photoGrid" class="grid"></div><button id="more" class="secondary" hidden>載入更多照片</button>
+</section></main>
+<dialog id="viewer"><div class="viewerBar"><strong id="viewerTitle"></strong><button id="closeViewer" class="secondary" aria-label="關閉照片">關閉</button></div><img id="viewerImage" alt=""><div class="viewerBar"><a id="download" href="#" download>下載原始照片</a><button id="delete" class="danger" hidden>刪除此照片</button></div></dialog>
+<script type="module" src="./app.js"></script></body></html>
