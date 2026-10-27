@@ -79,6 +79,8 @@
                 <label class="wide">誰先付款？ <select id="payerSelect" name="payer" required></select></label>
               </div>
               <fieldset class="people-fieldset"><legend>哪些人要分攤？</legend><div class="people-bar"><span>預設平均分攤，可排除未參與的人</span><button type="button" id="selectAllBtn" class="plain-button">全選</button></div><div id="participantOptions" class="participants"></div></fieldset>
+              <div class="split-selector"><label for="splitMode">分攤方式</label><select id="splitMode"><option value="equal">平均分攤（預設）</option><option value="custom">自訂每人金額</option></select></div>
+              <section id="customSplitPanel" class="custom-split" hidden><div class="people-bar"><strong>每人應付金額</strong><button id="rebalanceBtn" class="plain-button" type="button">帶入平均金額</button></div><div id="customShareInputs"></div><p id="shareValidation" role="status" aria-live="polite"></p></section>
               <p class="minor">分帳以最小貨幣單位精確計算，無法整除的尾數會按固定順序分配，避免四捨五入誤差。</p>
               <button id="saveExpenseBtn" type="submit" class="primary-button full">新增這筆費用 ＋</button>
             </form>
