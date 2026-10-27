@@ -1,0 +1,42 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Storage rules can check the existing Firestore trip membership.
+    // Publish these rules in Firebase Console > Storage > Rules.
+    function signedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+    function member(t) {
+      return firestore.get(
+        /databases/(default)/documents/trips/$(t)/members/$(request.auth.uid)
+      ).data;
+    }
+    function activeMember(t) {
+      return signedIn() && member(t).active == true;
+    }
+    function organizer(t) {
+      return activeMember(t) && member(t).role == 'admin';
+    }
+    match /trip-photos/{t}/{ownerUid}/{photoId}/{kind} {
+      // getBlob() applies rules on every request; never expose token-based URLs.
+      allow get: if activeMember(t);
+      allow list: if false;
+      allow create: if activeMember(t)
+        && request.auth.uid == ownerUid
+        && photoId.matches('^[a-f0-9-]{36}$')
+        && request.resource.size > 0
+        && (
+          (kind == 'original'
+            && request.resource.size <= 20 * 1024 * 1024
+            && request.resource.contentType.matches('^image/(jpeg|png|webp)$'))
+          ||
+          (kind == 'thumb'
+            && request.resource.size <= 1024 * 1024
+            && request.resource.contentType == 'image/jpeg')
+        );
+      allow update: if false;
+      allow delete: if activeMember(t)
+        && (request.auth.uid == ownerUid || organizer(t));
+    }
+  }
+}
