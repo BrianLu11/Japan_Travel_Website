@@ -2,6 +2,7 @@
 (() => {
   'use strict';
   const rows = [
+    ["返回 Travel Plan 總首頁","Travel Plan のトップページに戻る","Back to Travel Plan homepage"],
     ["旅行共同分帳","旅行の共同精算","Shared travel expenses"],
     ["TRAVEL LEDGER / 共同記帳","TRAVEL LEDGER / 共同精算","TRAVEL LEDGER / SHARED EXPENSES"],
     ["旅費分帳，不再逐筆算錢。","旅費の精算をもっと簡単に。","Split travel expenses without the hassle."],
