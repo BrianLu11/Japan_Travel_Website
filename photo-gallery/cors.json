@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://brianlu11.github.io"],
+    "method": ["GET"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 3600
+  }
+]
