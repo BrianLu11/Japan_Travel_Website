@@ -16,10 +16,16 @@ service cloud.firestore {
        get(/databases/$(database)/documents/trips/$(t)/invites/$(email())).data.active == true;
    }
    function memberFields() { return ['displayName','email','role','active','joinedAt']; }
-   function expenseFields() { return ['title','amountMinor','payerUid','participantUids','category','date','createdBy','createdAt']; }
+   function expenseFields() { return ['title','amountMinor','payerUid','participantUids','category','date','createdBy','createdAt','splitMode','sharesMinor']; }
    function memberExists(t,u) {return exists(/databases/$(database)/documents/trips/$(t)/members/$(u));}
    function validExpense(t,d) {
-     return d.keys().hasAll(expenseFields()) && d.keys().hasOnly(expenseFields()) &&
+     return d.keys().hasAll(['title','amountMinor','payerUid','participantUids','category','date','createdBy','createdAt','splitMode']) &&
+       d.keys().hasOnly(expenseFields()) &&
+       (d.splitMode == 'equal' && !d.keys().hasAny(['sharesMinor']) ||
+        d.splitMode == 'custom' && d.keys().hasAll(['sharesMinor']) &&
+        d.sharesMinor is map && d.sharesMinor.keys().size() == d.participantUids.size() &&
+        d.sharesMinor.keys().hasAll(d.participantUids) &&
+        d.sharesMinor.values().size() <= 40) &&
        d.title is string && d.title.size() > 0 && d.title.size() <= 100 &&
        d.amountMinor is int && d.amountMinor >= 1 && d.amountMinor <= 999999999 &&
        d.payerUid is string && memberExists(t,d.payerUid) &&
