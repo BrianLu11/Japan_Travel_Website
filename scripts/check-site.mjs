@@ -32,7 +32,7 @@ for(const file of htmls){
     const url=value.split(/[?#]/,1)[0];if(!url)continue;
     if(!await exists(path.resolve(path.dirname(file),decodeURIComponent(url))))errors.push(rel+": missing local link "+value);
   }
-  if(rel.includes("/")&&!(rel.startsWith("templates/"))&&/\/<header\b/i.test(html)){
+  if(rel.includes("/")&&!(rel.startsWith("templates/"))&&/<header\b/i.test(html)){
     if(/class=["'][^"']*brand[^"']*["']/.test(html)){
       const found=html.match(/<a\b[^>]*class=["'][^"']*brand[^"']*["'][^>]*>/i)?.[0]||"";
       if(!/href=["']\.\.\/["']/.test(found))errors.push(rel+": brand must link to ../ (site homepage)");
