@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#102c34">
+  <meta name="description" content="Travel Plan 共用分帳：Google 登入、多人記帳與旅費結算。">
+  <title>Travel Ledger｜旅行共用分帳</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">跳到分帳內容</a>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="../">◈ TRAVEL PLAN</a>
+      <nav aria-label="頁面導覽">
+        <a id="tripBack" href="../">← 返回行程</a>
+        <button id="signOutBtn" type="button" class="ghost" hidden>登出</button>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero">
+        <p class="eyebrow">SHARED TRAVEL LEDGER / 共同記帳</p>
+        <h1>旅費清楚，<br><em>旅行輕鬆。</em></h1>
+        <p class="hero-lead">誰先付、誰要分攤，隨手記下來。最後自動算出每個人的淨額與建議轉帳方式，不再翻聊天紀錄算錢。</p>
+        <div class="hero-foot">
+          <span id="tripName" class="trip-name">正在讀取行程…</span>
+          <button id="copyLinkBtn" type="button" class="link-button">複製帳本連結 ↗</button>
+        </div>
+      </section>
+      <div id="status" class="status" role="status" aria-live="polite" hidden></div>
+      <section id="setupView" class="access-panel" hidden>
+        <p class="eyebrow">CLOUD SETUP REQUIRED</p>
+        <h2>共用帳本尚未連接資料庫</h2>
+        <p>介面已準備好，但目前不能儲存或同步多人帳目。管理者必須先設定 Firebase Authentication、Firestore 與存取規則；設定好後才會顯示 Google 登入。</p>
+        <a class="primary-link" href="./README.md">查看設定說明 ↗</a>
+        <p class="minor">GitHub Pages 只提供靜態網頁，不能直接儲存多人私人記帳資料。此頁不會假裝已完成同步。</p>
+      </section>
+      <section id="loginView" class="access-panel" hidden>
+        <p class="eyebrow">PRIVATE EXPENSE BOOK</p>
+        <h2>用 Google 帳戶登入</h2>
+        <p>旅費只開放給此趟旅行的已授權旅伴。請使用主辦人邀請的 Google Email 登入。</p>
+        <button id="signInBtn" type="button" class="primary-button">使用 Google 登入 ↗</button>
+        <p class="minor">登入後僅加入有權限的行程帳本；登入本身不代表可以讀取所有旅行資料。</p>
+      </section>
+      <section id="joinView" class="access-panel" hidden>
+        <p class="eyebrow">JOIN THIS TRIP</p>
+        <h2>確認加入共用帳本</h2>
+        <p>目前登入：<strong id="joinAccount"></strong>。確認後，旅伴將看見你的 Google 顯示名稱與 Email，以利辨識付款人。</p>
+        <button id="joinBtn" type="button" class="primary-button">加入此趟旅行 ↗</button>
+      </section>
+      <section id="dashboard" hidden>
+        <div class="dashboard-top">
+          <div>
+            <p class="eyebrow">LIVE GROUP ACCOUNTING</p>
+            <h2>這趟旅行的帳本</h2>
+            <p class="secondary">登入身分：<span id="accountName"></span> · <span id="currencyName">JPY</span> · 所有旅伴即時同步</p>
+          </div>
+          <button id="exportBtn" type="button" class="secondary-button">下載 CSV ↓</button>
+        </div>
+        <div class="stats">
+          <article class="stat"><span>目前總支出</span><strong id="totalAmount">—</strong><small>所有記錄的累積費用</small></article>
+          <article class="stat"><span>我的淨額</span><strong id="myBalance">—</strong><small id="myBalanceHint">正數代表應收，負數代表應付</small></article>
+          <article class="stat"><span>帳目筆數 / 旅伴人數</span><strong id="entryCount">0 / 0</strong><small>依本趟旅行個別計算</small></article>
+        </div>
+        <div class="columns">
+          <section class="surface">
+            <div class="section-heading"><span class="eyebrow">01 / ADD AN EXPENSE</span><h3>新增共同費用</h3><p>一筆一個付款人；可勾選只有部分旅伴參與的項目。</p></div>
+            <form id="expenseForm">
+              <div class="form-grid">
+                <label>支出項目 <input id="expenseTitle" name="title" maxlength="100" placeholder="例如：七人午餐" required></label>
+                <label>金額（<span id="amountUnit">JPY</span>） <input id="expenseAmount" name="amount" inputmode="decimal" placeholder="例如：10500" required></label>
+                <label>類別 <select id="expenseCategory" name="category">
+                  <option value="餐飲">餐飲</option><option value="交通">交通</option><option value="住宿">住宿</option>
+                  <option value="門票">門票</option><option value="購物">購物</option><option value="其他">其他</option>
+                </select></label>
+                <label>消費日期 <input id="expenseDate" name="date" type="date" required></label>
+                <label class="wide">誰先付款？ <select id="payerSelect" name="payer" required></select></label>
+              </div>
+              <fieldset class="people-fieldset"><legend>哪些人要分攤？</legend><div class="people-bar"><span>預設平均分攤，可排除未參與的人</span><button type="button" id="selectAllBtn" class="plain-button">全選</button></div><div id="participantOptions" class="participants"></div></fieldset>
+              <div class="split-selector"><label for="splitMode">分攤方式</label><select id="splitMode"><option value="equal">平均分攤（預設）</option><option value="custom">自訂每人金額</option></select></div>
+              <section id="customSplitPanel" class="custom-split" hidden><div class="people-bar"><strong>每人應付金額</strong><button id="rebalanceBtn" class="plain-button" type="button">帶入平均金額</button></div><div id="customShareInputs"></div><p id="shareValidation" role="status" aria-live="polite"></p></section>
+              <p class="minor">分帳以最小貨幣單位精確計算，無法整除的尾數會按固定順序分配，避免四捨五入誤差。</p>
+              <button id="saveExpenseBtn" type="submit" class="primary-button full">新增這筆費用 ＋</button>
+            </form>
+          </section>
+          <section class="surface">
+            <div class="section-heading"><span class="eyebrow">02 / WHO OWES WHOM</span><h3>即時結算</h3><p>正數表示應收、負數表示應付；以下是簡化後的建議轉帳。</p></div>
+            <div id="balanceList" class="balance-list"></div>
+            <div class="divider"></div>
+            <h4>建議轉帳</h4>
+            <div id="transferList" class="transfer-list"></div>
+            <button id="copySettlementBtn" type="button" class="secondary-button full">複製結算文字 ↗</button>
+            <p class="minor">這裡只計算建議，不會自動轉帳，也不會宣稱已付款。</p>
+          </section>
+        </div>
+        <section class="surface history">
+          <div class="history-head"><div><span class="eyebrow">03 / TRANSACTION HISTORY</span><h3>所有支出記錄</h3><p>只有建立該筆費用的人或主辦人可刪除紀錄。</p></div><span class="small-pill" id="historyCount">0 筆</span></div>
+          <div id="expenseList" class="expense-list"></div>
+        </section>
+        <section id="adminPanel" class="surface admin" hidden>
+          <span class="eyebrow">ORGANIZER ONLY</span>
+          <h3>管理旅伴權限</h3>
+          <p>先邀請 Google Email。對方登入並確認加入後，才能查看此趟帳本。撤回邀請不會移除已加入的人；可另外停用其存取權。</p>
+          <form id="inviteForm" class="invite-form"><label for="inviteEmail">邀請的 Google Email</label><div class="invite-input"><input id="inviteEmail" type="email" autocomplete="email" placeholder="friend@gmail.com" required><button class="primary-button" type="submit">新增邀請</button></div></form>
+          <div class="admin-columns"><div><h4>已邀請 Email</h4><div id="inviteList"></div></div><div><h4>已加入旅伴</h4><div id="adminMemberList"></div></div></div>
+        </section>
+      </section>
+    </main>
+    <footer>TRAVEL PLAN · LEDGER <span>僅記錄帳目與建議結算；實際付款請自行確認。</span></footer>
+  </div>
+</body>
+</html>

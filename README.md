@@ -27,12 +27,20 @@
 - 🍽️ **聚餐資訊**：適合團體的午晚餐備選方案。
 - 💴 **預算估算與行前清單**：減少臨時找資料的時間。
 
+## 💴 多人分帳（Travel Ledger）
+
+- 透過 Google 登入，受邀旅伴共同記帳；每趟旅行使用獨立帳本。
+- 預設平均分攤，也能自訂每人的實際消費金額，並提供結算轉帳建議與 CSV 匯出。
+- [上野帳本](https://brianlu11.github.io/Travel_Plan/expense-tracker/?trip=ueno-2026) / [秩父・長瀞帳本](https://brianlu11.github.io/Travel_Plan/expense-tracker/?trip=chichibu-kawagoe-2026)
+- [Firebase 設定與安全規則](expense-tracker/README.md)。帳目儲存在 Firestore，請勿把私人帳目提交至公開 GitHub。
+
 ## 📁 專案結構
 
 ```text
 Travel_Plan/
 ├── index.html           # 所有旅程的入口首頁
 ├── README.md
+├── expense-tracker/    # 共用分帳功能與 Firebase 規則
 └── ueno-trip/
     ├── index.html       # 上野六人一日遊
     ├── app.js           # 行程切換及互動功能
