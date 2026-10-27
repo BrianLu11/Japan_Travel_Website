@@ -81,7 +81,7 @@ Travel_Plan/
 
 ## 5. Firebase 安全、隱私與計費
 
-Auth 與兩個工具各自負責存取授權；GitHub Pages 是公開前端，不是授權伺服器。Firestorm/Storage Rules 須在 Firebase Console **另行發布**，不隨 PR 合併自動部署。照片只能在 Storage 透過會員授權讀取，勿寫入 GitHub；不要把長期可分享的 `getDownloadURL()` token 放在公開頁面。帳本屬個人支出，不能用公開 JSON 檔儲存。
+Auth 與兩個工具各自負責存取授權；GitHub Pages 是公開前端，不是授權伺服器。Firestore/Storage Rules 須在 Firebase Console **另行發布**，不隨 PR 合併自動部署。照片只能在 Storage 透過會員授權讀取，勿寫入 GitHub；不要把長期可分享的 `getDownloadURL()` token 放在公開頁面。帳本屬個人支出，不能用公開 JSON 檔儲存。
 
 Firebase Storage Blaze 會有計費風險；Google Cloud 的預算警報並非硬性上限。對外分享前確認隱私及權限。所有圖片原始檔可能包含 EXIF／GPS 資訊。
 
