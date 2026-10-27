@@ -1,5 +1,5 @@
 import {firebaseConfig} from "./firebase-config.js";
-import {calculateLedger, formatMoney, parseAmount} from "./ledger.js";
+import {calculateLedger, formatMoney, parseAmount, parseShare, equalShares, validateCustomShares, expenseShares} from "./ledger.js";
 
 const tripId = new URLSearchParams(location.search).get("trip") || "";
 const trips = {
@@ -8,7 +8,7 @@ const trips = {
 };
 const trip = trips[tripId];
 const $ = id => document.getElementById(id);
-let auth,db,user,member,unsubscribe=[],members=[],expenses=[],invitations=[],currency="JPY";
+let auth,db,user,member,unsubscribe=[],members=[],expenses=[],invitations=[],currency="JPY",splitMode="equal",shareDraft=new Map();
 const alertText=(s,bad=false)=>{const el=$("status");el.hidden=false;el.textContent=s;el.className="status "+(bad?"error":"");};
 const show=id=>["setupView","loginView","joinView","dashboard"].forEach(x=>$(x).hidden=x!==id);
 const safeText=(el,s)=>{el.textContent=String(s??"");};
@@ -77,6 +77,51 @@ async function boot(){
        $("adminPanel").hidden=false;watch(invites,a=>{invitations=a;});
      }else $("adminPanel").hidden=true;
    }
+   $("splitMode").addEventListener("change",()=>{
+     splitMode=$("splitMode").value;
+     $("customSplitPanel").hidden=splitMode!=="custom";
+     renderCustomShares(true);
+   });
+   $("expenseAmount").addEventListener("input",()=>renderCustomShares(false));
+   $("rebalanceBtn").addEventListener("click",()=>{
+     shareDraft.clear();
+     renderCustomShares(true);
+   });
+   function renderCustomShares(prefill=false){
+     if(splitMode!=="custom")return;
+     const selected=[...document.querySelectorAll('input[name="participating"]:checked')].map(c=>c.value);
+     const panel=$("customShareInputs");
+     const prior=new Map(shareDraft);
+     if(prefill || !shareDraft.size){
+       try{
+         const equal=equalShares(parseAmount($("expenseAmount").value,currency),selected);
+         shareDraft=new Map(Object.entries(equal).map(([k,v])=>[k,String(v/(10**(["JPY","KRW","TWD"].includes(currency)?0:2)))]));
+       }catch{if(prefill)shareDraft.clear();}
+     }
+     panel.replaceChildren();
+     for(const uid of selected){
+       const label=document.createElement("label");label.className="custom-share-row";
+       const name=document.createElement("span");name.textContent=nameOf(uid);
+       const input=document.createElement("input");input.type="text";input.inputMode="decimal";input.setAttribute("aria-label",nameOf(uid)+" 分攤金額");
+       input.value=shareDraft.get(uid)??prior.get(uid)??"";
+       input.addEventListener("input",()=>{shareDraft.set(uid,input.value);validateDraft();});
+       label.append(name,input);panel.append(label);
+     }
+     validateDraft();
+   }
+   function validateDraft(){
+     if(splitMode!=="custom")return;
+     const el=$("shareValidation");
+     try{
+       const total=parseAmount($("expenseAmount").value,currency);
+       const selected=[...document.querySelectorAll('input[name="participating"]:checked')].map(c=>c.value);
+       let sum=0;
+       for(const uid of selected)sum+=parseShare(shareDraft.get(uid)??"",currency);
+       const remaining=total-sum;
+       el.textContent=remaining===0?"✓ 自訂分攤總額正確":remaining>0?"尚未分配："+formatMoney(remaining,currency):"超過總額："+formatMoney(-remaining,currency);
+       el.className=remaining===0?"valid":"invalid";
+     }catch(e){el.textContent=e.message;el.className="invalid";}
+   }
    $("expenseForm").onsubmit=async ev=>{
      ev.preventDefault();
      try{
@@ -84,9 +129,15 @@ async function boot(){
        const payerUid=$("payerSelect").value;
        const participantUids=[...document.querySelectorAll('input[name="participating"]:checked')].map(x=>x.value).sort();
        if(!title||title.length>100||!members.some(m=>m.uid===payerUid)||!participantUids.length)throw Error("請確認項目、付款人與參與者。");
+       const splitData={splitMode};
+       if(splitMode==="custom"){
+         const sharesMinor={};
+         for(const uid of participantUids)sharesMinor[uid]=parseShare(shareDraft.get(uid)??"",currency);
+         splitData.sharesMinor=validateCustomShares(amountMinor,participantUids,sharesMinor);
+       }
        $("saveExpenseBtn").disabled=true;
-       await addDoc(bills,{title,amountMinor,payerUid,participantUids,category:$("expenseCategory").value,date:$("expenseDate").value,createdBy:user.uid,createdAt:serverTimestamp()});
-       $("expenseTitle").value="";$("expenseAmount").value="";
+       await addDoc(bills,{title,amountMinor,payerUid,participantUids,category:$("expenseCategory").value,date:$("expenseDate").value,...splitData,createdBy:user.uid,createdAt:serverTimestamp()});
+       $("expenseTitle").value="";$("expenseAmount").value="";shareDraft.clear();renderCustomShares(true);
        alertText("費用已儲存並同步。");
      }catch(e){alertText("新增失敗："+e.message,true);}
      finally{$("saveExpenseBtn").disabled=false;}
@@ -111,9 +162,10 @@ async function boot(){
      $("participantOptions").replaceChildren();
      for(const m of members){
        const label=document.createElement("label");label.className="person-check";
-       const check=document.createElement("input");check.type="checkbox";check.name="participating";check.value=m.uid;check.checked=selected.size?selected.has(m.uid):true;
+       const check=document.createElement("input");check.type="checkbox";check.name="participating";check.value=m.uid;check.checked=selected.size?selected.has(m.uid):true;check.addEventListener("change",()=>renderCustomShares(false));
        label.append(check,document.createTextNode(" "+(m.displayName||m.email)));$("participantOptions").append(label);
      }
+     renderCustomShares(false);
      const result=calculateLedger(members,expenses);
      $("totalAmount").textContent=formatMoney(result.totalMinor,currency);
      $("entryCount").textContent=expenses.length+" / "+members.length;
@@ -135,7 +187,8 @@ async function boot(){
      for(const x of [...expenses].sort((a,b)=>String(b.date).localeCompare(String(a.date)))){
        const item=document.createElement("article");item.className="expense-item";
        const content=document.createElement("div"),h=document.createElement("strong"),small=document.createElement("small"),right=document.createElement("div"),amount=document.createElement("b");
-       h.textContent=x.title;small.textContent=(x.date||"")+" · "+(x.category||"其他")+" · 付款："+nameOf(x.payerUid)+" · "+(x.participantUids||[]).length+" 人分攤";
+       h.textContent=x.title;small.textContent=(x.date||"")+" · "+(x.category||"其他")+" · 付款："+nameOf(x.payerUid)+" · "+(x.splitMode==="custom"?"自訂金額":"平均分攤")+" · "+(x.participantUids||[]).length+" 人";
+       try{const shares=expenseShares(x);small.textContent+="\n"+Object.entries(shares).map(([uid,v])=>nameOf(uid)+"："+formatMoney(v,currency)).join(" / ");}catch{small.textContent+=" · 分攤資料異常";}
        amount.textContent=formatMoney(x.amountMinor,currency);content.append(h,small);right.append(amount);
        if(x.createdBy===user.uid||member.role==="admin"){right.append(actionButton("刪除",async()=>{if(!confirm("確定刪除此筆費用？"))return;try{await deleteDoc(doc(bills,x.id));}catch(e){alertText("刪除失敗："+e.message,true);}}));}
        item.append(content,right);list.append(item);
@@ -149,7 +202,7 @@ async function boot(){
        for(const m of members){const p=document.createElement("div");p.className="admin-row";const s=document.createElement("span");s.textContent=(m.displayName||m.email)+" · "+m.role;p.append(s);if(m.role!=="admin")p.append(actionButton("停用",async()=>{if(confirm("停用後該旅伴無法再查看帳本；涉及他的費用將暫時無法正確結算。")){try{await updateDoc(memberRef(m.uid),{active:false});}catch(e){alertText(e.message,true);}}}));mem.append(p);}
      }
      $("exportBtn").onclick=()=>{
-       const csv=[["date","title","category","amount_minor","currency","payer_uid","participant_uids","created_by"],...expenses.map(x=>[x.date,x.title,x.category,x.amountMinor,currency,x.payerUid,(x.participantUids||[]).join("|"),x.createdBy])].map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
+       const csv=[["date","title","category","amount_minor","currency","payer_uid","participant_uids","split_mode","shares_minor_json","created_by"],...expenses.map(x=>[x.date,x.title,x.category,x.amountMinor,currency,x.payerUid,(x.participantUids||[]).join("|"),x.splitMode||"equal",JSON.stringify(x.splitMode==="custom"?x.sharesMinor:equalShares(x.amountMinor,x.participantUids)),x.createdBy])].map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
        const a=document.createElement("a"),url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));a.href=url;a.download=tripId+"-expenses.csv";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
      };
    }
