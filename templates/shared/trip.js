@@ -44,7 +44,7 @@ export function mountTrip(data){
     if(!stops.length){const p=document.createElement("p");p.textContent=localized({"zh-Hant":"尚無行程資料。",ja:"予定はまだありません。",en:"No stops yet."});list.append(p);}
     $("tools").replaceChildren();
     const features=data.features||{};
-    const root=new URL("../",location.href);
+    const root=new URL($("homeLink").getAttribute("href"),location.href);
     for(const [flag,path,labels] of [
       ["ledger","expense-tracker/",{"zh-Hant":"旅行分帳 ↗",ja:"旅行の共同精算 ↗",en:"Shared expenses ↗"}],
       ["gallery","photo-gallery/",{"zh-Hant":"共享相簿 ↗",ja:"共有アルバム ↗",en:"Shared gallery ↗"}]
