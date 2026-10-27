@@ -66,6 +66,31 @@ service cloud.firestore {
          request.resource.data.active is bool;
        allow delete: if false;
      }
+     match /photos/{id} {
+       allow read: if activeMember(t);
+       allow create: if activeMember(t)
+         && id.matches('^[a-f0-9-]{36}
+       allow read: if activeMember(t);
+       allow create: if activeMember(t) && validExpense(t, request.resource.data);
+       allow delete: if activeMember(t) && (resource.data.createdBy == request.auth.uid || organizer(t));
+       allow update: if false;
+     }
+   }
+ }
+})
+         && request.resource.data.keys().hasOnly(['name','uploaderUid','uploaderName','size','contentType','originalPath','thumbPath','createdAt'])
+         && request.resource.data.keys().hasAll(['name','uploaderUid','uploaderName','size','contentType','originalPath','thumbPath','createdAt'])
+         && request.resource.data.uploaderUid == request.auth.uid
+         && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 200
+         && request.resource.data.uploaderName is string && request.resource.data.uploaderName.size() <= 120
+         && request.resource.data.size is int && request.resource.data.size > 0 && request.resource.data.size <= 20 * 1024 * 1024
+         && request.resource.data.contentType in ['image/jpeg','image/png','image/webp']
+         && request.resource.data.originalPath == 'trip-photos/' + t + '/' + request.auth.uid + '/' + id + '/original'
+         && request.resource.data.thumbPath == 'trip-photos/' + t + '/' + request.auth.uid + '/' + id + '/thumb'
+         && request.resource.data.createdAt == request.time;
+       allow update: if false;
+       allow delete: if activeMember(t) && (resource.data.uploaderUid == request.auth.uid || organizer(t));
+     }
      match /expenses/{id} {
        allow read: if activeMember(t);
        allow create: if activeMember(t) && validExpense(t, request.resource.data);
