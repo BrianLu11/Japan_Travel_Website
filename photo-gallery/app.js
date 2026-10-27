@@ -65,8 +65,8 @@ async function uploadFiles(){
  await fire.setDoc(fire.doc(collection(),id),{name:f.name.slice(0,200),uploaderUid:me.uid,uploaderName:(me.displayName||me.email||"旅伴").slice(0,120),size:f.size,contentType:f.type,originalPath:original.fullPath,thumbPath:thumb.fullPath,createdAt:fire.serverTimestamp()});done++;
  }catch(e){await Promise.allSettled([store.deleteObject(original),store.deleteObject(thumb)]);throw e;}
  }
- $("photos").value="";$("uploadStatus").textContent="已完成 "+done+" 張";notice("照片已上傳。");resetGallery();await loadMore();
- }catch(e){notice("已完成 "+done+" 張，其餘上傳失敗："+errorMessage(e));resetGallery();await loadMore();}
+ $("photos").value="";$("uploadStatus").textContent="已完成 "+done+" 張";notice("照片已上傳。");resetGallery();busy=false;await loadMore();
+ }catch(e){notice("已完成 "+done+" 張，其餘上傳失敗："+errorMessage(e));resetGallery();busy=false;await loadMore();}
  finally{busy=false;$("upload").disabled=false;$("progress").hidden=true;}
 }
 function resetGallery(){for(const u of thumbs.values())tidyUrl(u);thumbs.clear();rows=[];cursor=null;$("photoGrid").replaceChildren();}
